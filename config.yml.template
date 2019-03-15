@@ -1,0 +1,46 @@
+---
+hostPort: ${JMX_HOSTPORT}
+username:
+password:
+lowercaseOutputName: true
+whitelistObjectNames:
+ - "java.lang:type=GarbageCollector,*"
+ - "java.lang:type=Memory,*"
+ - "java.lang:type=Threading,*"
+ - "java.lang:type=OperatingSystem,*"
+
+rules:
+ - name: ps_scavenge_collection_count
+   pattern: 'java.lang<type=GarbageCollector, name=PS Scavenge><>CollectionCount: (\d+)'
+   value: $1
+   help: "PS Scavenge GC collection count"
+
+ - name: ps_marksweep_collection_count
+   pattern: 'java.lang<type=GarbageCollector, name=PS MarkSweep><>CollectionCount: (\d+)'
+   value: $1
+   help: "PS MarkSweep GC collection count"
+
+ - name: ps_scavenge_collection_time
+   pattern: 'java.lang<type=GarbageCollector, name=PS Scavenge><>CollectionTime: (\d+)'
+   value: $1
+   help: "PS Scavenge collection time"
+
+ - name: ps_marksweep_collection_time
+   pattern: 'java.lang<type=GarbageCollector, name=PS MarkSweep><>CollectionTime: (\d+)'
+   value: $1
+   help: "PS MarkSweep GC collection time"
+
+ - name: java_lang_Memory_HeapMemoryUsage_$1
+   pattern: 'java.lang<type=Memory><HeapMemoryUsage>(.+): .*'
+
+ - name: java_lang_Memory_NonHeapMemoryUsage_$1
+   pattern: 'java.lang<type=Memory><NonHeapMemoryUsage>(.+): .*'
+
+ - name: java_lang_OperatingSystem_OpenFileDescriptorCount
+   pattern: 'java.lang<type=OperatingSystem><.*>OpenFileDescriptorCount: .*'
+
+ - name: java_lang_OperatingSystem_ProcessCpuLoad
+   pattern: 'java.lang<type=OperatingSystem><.*>ProcessCpuLoad: .*'
+
+ - name: java_lang_Threading_ThreadCount
+   pattern: 'java.lang<type=Threading><(.*)>ThreadCount: .*'
