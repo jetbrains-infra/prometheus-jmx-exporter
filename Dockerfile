@@ -5,6 +5,7 @@ RUN apk update && apk upgrade && apk --update add curl gettext && rm -rf /tmp/* 
 ENV VERSION 0.3.1
 ENV JAR jmx_prometheus_httpserver-$VERSION-jar-with-dependencies.jar
 ENV JMX_HOSTPORT 127.0.0.1:5555
+ENV DEBUG false
 
 RUN curl -L https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 -o usr/local/bin/dumb-init && chmod +x /usr/local/bin/dumb-init
 
