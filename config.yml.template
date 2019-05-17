@@ -4,37 +4,43 @@ username:
 password:
 lowercaseOutputName: true
 whitelistObjectNames:
+ - "java.nio:type=BufferPool,*"
  - "java.lang:type=GarbageCollector,*"
  - "java.lang:type=Memory,*"
  - "java.lang:type=Threading,*"
  - "java.lang:type=OperatingSystem,*"
 
 rules:
- - name: ps_scavenge_collection_count
-   pattern: 'java.lang<type=GarbageCollector, name=PS Scavenge><>CollectionCount: (\d+)'
+ - name: g1_old_collection_count
+   pattern: 'java.lang<name=G1 Old Generation, type=GarbageCollector><>CollectionCount: (\d+)'
    value: $1
-   help: "PS Scavenge GC collection count"
+   help: "G1 Old Generation GC collection count"
 
- - name: ps_marksweep_collection_count
-   pattern: 'java.lang<type=GarbageCollector, name=PS MarkSweep><>CollectionCount: (\d+)'
+ - name: g1_young_collection_count
+   pattern: 'java.lang<name=G1 Young Generation, type=GarbageCollector><>CollectionCount: (\d+)'
    value: $1
-   help: "PS MarkSweep GC collection count"
+   help: "G1 Young Generation GC collection count"
 
- - name: ps_scavenge_collection_time
-   pattern: 'java.lang<type=GarbageCollector, name=PS Scavenge><>CollectionTime: (\d+)'
+ - name: g1_old_collection_time
+   pattern: 'java.lang<name=G1 Old Generation, type=GarbageCollector><>CollectionTime: (\d+)'
    value: $1
-   help: "PS Scavenge collection time"
+   help: "G1 Old Generation collection time"
 
- - name: ps_marksweep_collection_time
-   pattern: 'java.lang<type=GarbageCollector, name=PS MarkSweep><>CollectionTime: (\d+)'
+ - name: g1_young_collection_time
+   pattern: 'java.lang<name=G1 Young Generation, type=GarbageCollector><>CollectionTime: (\d+)'
    value: $1
-   help: "PS MarkSweep GC collection time"
+   help: "G1 Young Generation GC collection time"
 
  - name: java_lang_Memory_HeapMemoryUsage_$1
    pattern: 'java.lang<type=Memory><HeapMemoryUsage>(.+): .*'
 
  - name: java_lang_Memory_NonHeapMemoryUsage_$1
    pattern: 'java.lang<type=Memory><NonHeapMemoryUsage>(.+): .*'
+
+ - name: java_nio_direct_MemoryUsed
+   pattern: 'java.nio<name=direct, type=BufferPool><>MemoryUsed: (\d+)'
+   value: $1
+   help: "NIO buffer pool usage"
 
  - name: java_lang_OperatingSystem_OpenFileDescriptorCount
    pattern: 'java.lang<type=OperatingSystem><.*>OpenFileDescriptorCount: .*'
